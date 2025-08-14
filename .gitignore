@@ -1,0 +1,29 @@
+# macOS系统文件
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS文件夹属性
+Icon?
+._*
+
+# macOS磁盘镜像文件
+.Spotlight-V100
+.Trashes
+
+# Python缓存文件
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 虚拟环境
+venv/
+env/
+
+# pip环境文件
+*.env
+*.venv
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
