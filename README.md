@@ -42,3 +42,5 @@ pip install rosbag pykml lxml
 - 确保 ROS bag 文件中包含有效的 GPS 数据。
 
 ## 许可证
+
+该项目遵循MIT开源许可
