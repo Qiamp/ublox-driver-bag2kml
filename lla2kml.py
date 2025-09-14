@@ -18,28 +18,35 @@ def generate_kml(lla_data, output_path):
     """
     根据提取的 LLA 数据生成 KML 文件。
     """
+    # 创建包含所有点的文档
+    placemarks = []
+    for i, (lat, lon, alt) in enumerate(lla_data):
+        placemark = KML.Placemark(
+            KML.Point(
+                KML.altitudeMode("absolute"),
+                KML.coordinates(f"{lon},{lat},{alt}")
+            ),
+            KML.styleUrl("#pointStyle")
+        )
+        placemarks.append(placemark)
+    
     kml_doc = KML.kml(
         KML.Document(
-            KML.name("GPS轨迹"),
+            KML.name("GPS数据点"),
             KML.Style(
-                KML.LineStyle(
-                    KML.color("ff0000ff"),  # 红色轨迹线 (AABBGGRR格式)
-                    KML.width("3")  # 轨迹线宽度
+                KML.IconStyle(
+                    KML.Icon(
+                        KML.href("http://maps.google.com/mapfiles/kml/paddle/blu-circle.png")
+                    ),
+                    KML.scale("0.6"),
+                    KML.hotSpot(x="0.5", y="0.5", xunits="fraction", yunits="fraction")
                 ),
-                id="trackStyle"
+                KML.LabelStyle(
+                    KML.scale("0")  # 隐藏标签
+                ),
+                id="pointStyle"
             ),
-            KML.Placemark(
-                KML.name("GPS轨迹路径"),
-                KML.styleUrl("#trackStyle"),
-                KML.LineString(
-                    KML.extrude("1"),
-                    KML.tessellate("1"),
-                    KML.altitudeMode("absolute"),
-                    KML.coordinates(
-                        " ".join([f"{lon},{lat},{alt}" for lat, lon, alt in lla_data])
-                    )
-                )
-            )
+            *placemarks
         )
     )
     with open(output_path, 'wb') as f:
